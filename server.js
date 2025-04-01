@@ -11,6 +11,8 @@ const __dirname = dirname(__filename);
 const app = express();
 app.use(cors());
 app.use(express.static(join(__dirname, '../dist')));
+// Add static file serving for the dashboard
+app.use(express.static(join(__dirname, 'public')));
 
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -26,8 +28,8 @@ const games = {};
 // Middleware
 app.use(cors());
 
-// Dashboard route
-app.get('/dashboard', (req, res) => {
+// API endpoint for dashboard data
+app.get('/api/dashboard', (req, res) => {
     const dashboardData = Object.keys(games).map(gameId => {
         const game = games[gameId];
         return {
@@ -43,6 +45,11 @@ app.get('/dashboard', (req, res) => {
         };
     });
     res.json(dashboardData);
+});
+
+// HTML Dashboard route - serve the dashboard HTML page
+app.get('/dashboard', (req, res) => {
+    res.sendFile(join(__dirname, 'public', 'dashboard.html'));
 });
 
 // Store recent chat messages
@@ -61,6 +68,9 @@ io.on('connection', (socket) => {
             if (games[gameId].recentMessages.length > 5) {
                 games[gameId].recentMessages.shift();
             }
+
+            // Emit updated chat to all clients
+            io.to(gameId).emit('chatUpdate', games[gameId].recentMessages);
         }
     });
 });
@@ -320,4 +330,5 @@ const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
     console.log(`Players can join at http://localhost:${PORT}`);
+    console.log(`Dashboard available at http://localhost:${PORT}/dashboard`);
 });
