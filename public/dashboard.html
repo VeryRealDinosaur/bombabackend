@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bomb Defusal Game Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Bomb Defusal Games Dashboard</h1>
+            <div class="refresh-container">
+                <button id="refreshBtn">Refresh Data</button>
+                <span id="lastUpdated"></span>
+            </div>
+        </header>
+        
+        <div id="gamesContainer" class="games-container">
+            <div class="loading">Loading games data...</div>
+        </div>
+    </div>
+    
+    <script src="dashboard.js"></script>
+</body>
+</html>
