@@ -20,8 +20,12 @@ const io = new Server(server, {
     }
 });
 
-// Game state storage
+// **Export game state to be used in other files**
 const games = {};
+export { app, games, io };
+
+// **Import dashboard logic**
+import './dashboard.js';
 
 // Generate a random module for demo purposes
 const generateModule = (id, type) => {
