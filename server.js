@@ -15,7 +15,7 @@ app.use(express.static(join(__dirname, '../dist')));
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*", // In production, restrict this to your frontend URL
+        origin: "https://juegorosy.netlify.app", // In production, restrict this to your frontend URL
         methods: ["GET", "POST"]
     }
 });
